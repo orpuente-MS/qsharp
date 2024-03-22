@@ -42,6 +42,7 @@ export enum EventType {
   HistogramEnd = "Qsharp.HistogramEnd",
   FormatStart = "Qsharp.FormatStart",
   FormatEnd = "Qsharp.FormatEnd",
+  CreateProject = "Qsharp.CreateProject",
 }
 
 type Empty = { [K in any]: never };
@@ -209,12 +210,16 @@ type EventTypes = {
     measurements: { timeToCompleteMs: number };
   };
   [EventType.FormatStart]: {
-    properties: { associationId: string };
+    properties: { associationId: string; event: FormatEvent };
     measurements: Empty;
   };
   [EventType.FormatEnd]: {
     properties: { associationId: string };
     measurements: { timeToCompleteMs: number; numberOfEdits: number };
+  };
+  [EventType.CreateProject]: {
+    properties: Empty;
+    measurements: Empty;
   };
 };
 
@@ -235,6 +240,12 @@ export enum UserFlowStatus {
 export enum DebugEvent {
   StepIn = "StepIn",
   Continue = "Continue",
+}
+
+export enum FormatEvent {
+  OnDocument = "OnDocument",
+  OnRange = "OnRange",
+  OnType = "OnType",
 }
 
 let reporter: TelemetryReporter | undefined;
